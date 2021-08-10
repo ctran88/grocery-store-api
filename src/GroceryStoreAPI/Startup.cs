@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroceryStoreAPI.Database;
 using GroceryStoreAPI.Repositories;
+using GroceryStoreAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -19,10 +20,7 @@ namespace GroceryStoreAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
@@ -32,6 +30,7 @@ namespace GroceryStoreAPI
             string dbConnectionString = Configuration.GetConnectionString("GroceryStoreDb");
             services.AddScoped<IDbContext, GroceryStoreDbContext>(_ => new GroceryStoreDbContext(dbConnectionString));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
