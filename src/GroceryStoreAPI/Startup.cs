@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using GroceryStoreAPI.Database;
+using GroceryStoreAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +29,9 @@ namespace GroceryStoreAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string dbConnectionString = Configuration.GetConnectionString("GroceryStoreDb");
+            services.AddScoped<IDbContext, GroceryStoreDbContext>(_ => new GroceryStoreDbContext(dbConnectionString));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
