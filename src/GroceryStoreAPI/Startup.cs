@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
 using GroceryStoreAPI.Database;
+using GroceryStoreAPI.Middleware;
 using GroceryStoreAPI.Repositories;
 using GroceryStoreAPI.Services;
+using GroceryStoreAPI.Validators;
+using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace GroceryStoreAPI
@@ -31,7 +27,8 @@ namespace GroceryStoreAPI
             services.AddScoped<IDbContext, GroceryStoreDbContext>(_ => new GroceryStoreDbContext(dbConnectionString));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IService<>), typeof(Service<>));
-            services.AddControllers();
+            services.AddControllers(o => o.Filters.Add<ExceptionHandlerFilter>())
+                .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<CustomerDtoValidator>());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GroceryStoreAPI", Version = "v1" });
