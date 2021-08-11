@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using GroceryStoreAPI.Models;
 
 namespace GroceryStoreAPI.Repositories
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : IEntity
     {
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
         Task<T> GetByIdAsync(int id, CancellationToken cancellationToken);

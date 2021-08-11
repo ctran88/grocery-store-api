@@ -4,7 +4,6 @@ using GroceryStoreAPI.Middleware;
 using GroceryStoreAPI.Repositories;
 using GroceryStoreAPI.Services;
 using GroceryStoreAPI.Validators;
-using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +26,8 @@ namespace GroceryStoreAPI
             services.AddScoped<IDbContext, GroceryStoreDbContext>(_ => new GroceryStoreDbContext(dbConnectionString));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IService<>), typeof(Service<>));
-            services.AddControllers(o => o.Filters.Add<ExceptionHandlerFilter>())
+            
+            services.AddControllers(o => o.Filters.Add<ExceptionFilter>())
                 .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<CustomerDtoValidator>());
             services.AddSwaggerGen(c =>
             {

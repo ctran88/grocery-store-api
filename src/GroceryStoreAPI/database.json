@@ -1,8 +1,8 @@
 {
   "customers": [{
-      "id": 1,
-      "name": "Bob"
-    },
+    "id": 1,
+    "name": "Bob"
+  },
     {
       "id": 2,
       "name": "Mary"

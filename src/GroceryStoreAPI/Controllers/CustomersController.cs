@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,14 +52,14 @@ namespace GroceryStoreAPI.Controllers
             customer.Id = id;
             
             var updated = await _customerService.UpdateAsync(customer, cancellationToken);
-            return !updated ? NotFound() : NoContent();
+            return updated ? NoContent() : NotFound();
         }
         
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> RemoveCustomer(int id, CancellationToken cancellationToken)
         {
             var removed = await _customerService.RemoveAsync(id, cancellationToken);
-            return !removed ? NotFound() : NoContent();
+            return removed ? NoContent() : NotFound();
         }
     }
 }
