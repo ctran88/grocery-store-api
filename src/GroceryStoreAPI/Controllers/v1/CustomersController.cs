@@ -6,9 +6,10 @@ using GroceryStoreAPI.Services;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GroceryStoreAPI.Controllers
+namespace GroceryStoreAPI.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1")]
     [ApiController]
     public class CustomersController : ControllerBase
     {

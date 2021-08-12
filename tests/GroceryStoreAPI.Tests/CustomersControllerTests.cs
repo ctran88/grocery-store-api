@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using GroceryStoreAPI.Controllers;
+using GroceryStoreAPI.Controllers.v1;
 using GroceryStoreAPI.Models;
 using GroceryStoreAPI.Services;
 using Microsoft.AspNetCore.Http;

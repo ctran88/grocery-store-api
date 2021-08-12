@@ -6,6 +6,7 @@ using GroceryStoreAPI.Services;
 using GroceryStoreAPI.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,6 +30,13 @@ namespace GroceryStoreAPI
             
             services.AddControllers(o => o.Filters.Add<ExceptionFilter>())
                 .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<CustomerDtoValidator>());
+            services.AddHealthChecks();
+            services.AddApiVersioning(c =>
+            {
+                c.DefaultApiVersion = new ApiVersion(1, 0);
+                c.AssumeDefaultVersionWhenUnspecified = true;
+                c.ReportApiVersions = true;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GroceryStoreAPI", Version = "v1" });
@@ -45,12 +53,10 @@ namespace GroceryStoreAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GroceryStoreAPI v1"));
             }
 
+            app.UseHealthChecks("/status");
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
