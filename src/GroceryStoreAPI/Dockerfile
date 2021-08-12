@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["GroceryStoreAPI/GroceryStoreAPI.csproj", "GroceryStoreAPI/"]
+COPY ["GroceryStoreAPI.csproj", "GroceryStoreAPI/"]
 RUN dotnet restore "GroceryStoreAPI/GroceryStoreAPI.csproj"
-COPY . .
 WORKDIR "/src/GroceryStoreAPI"
+COPY . .
 RUN dotnet build "GroceryStoreAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
